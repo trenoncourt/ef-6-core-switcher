@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{E3DF0821-77E4-4E01-8B94-348004DA046C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9CF20DB0-586C-42D6-B5E2-00E0B68635B6}"
+	ProjectSection(SolutionItems) = preProject
+		global.json = global.json
+	EndProjectSection
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "EfSwitcher.DataContext.Abstractions", "src\EfSwitcher.DataContext.Abstractions\EfSwitcher.DataContext.Abstractions.xproj", "{8DF636CE-2207-474B-98B6-B32DD3B81ED1}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "EfSwitcher.DataContext.Ef6", "src\EfSwitcher.DataContext.Ef6\EfSwitcher.DataContext.Ef6.xproj", "{7C97B3B8-978D-43BD-B3B1-AC7BCF070499}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 - DataContext", "1 - DataContext", "{24099111-880A-49F2-8506-4D52C232B5D4}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "EfSwitcher.DataContext.EfCore", "src\EfSwitcher.DataContext.EfCore\EfSwitcher.DataContext.EfCore.xproj", "{A0D8FF0C-1646-4154-BC45-B80BF995E35F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8DF636CE-2207-474B-98B6-B32DD3B81ED1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8DF636CE-2207-474B-98B6-B32DD3B81ED1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8DF636CE-2207-474B-98B6-B32DD3B81ED1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8DF636CE-2207-474B-98B6-B32DD3B81ED1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C97B3B8-978D-43BD-B3B1-AC7BCF070499}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C97B3B8-978D-43BD-B3B1-AC7BCF070499}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C97B3B8-978D-43BD-B3B1-AC7BCF070499}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C97B3B8-978D-43BD-B3B1-AC7BCF070499}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A0D8FF0C-1646-4154-BC45-B80BF995E35F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0D8FF0C-1646-4154-BC45-B80BF995E35F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0D8FF0C-1646-4154-BC45-B80BF995E35F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0D8FF0C-1646-4154-BC45-B80BF995E35F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{8DF636CE-2207-474B-98B6-B32DD3B81ED1} = {24099111-880A-49F2-8506-4D52C232B5D4}
+		{7C97B3B8-978D-43BD-B3B1-AC7BCF070499} = {24099111-880A-49F2-8506-4D52C232B5D4}
+		{24099111-880A-49F2-8506-4D52C232B5D4} = {E3DF0821-77E4-4E01-8B94-348004DA046C}
+		{A0D8FF0C-1646-4154-BC45-B80BF995E35F} = {24099111-880A-49F2-8506-4D52C232B5D4}
+	EndGlobalSection
+EndGlobal

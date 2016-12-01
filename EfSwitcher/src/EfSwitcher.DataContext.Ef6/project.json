@@ -1,0 +1,13 @@
+{
+  "version": "1.0.0",
+
+  "dependencies": {
+    "EfSwitcher.DataContext.Abstractions": "1.0.0",
+    "EntityFramework": "6.1.3",
+    "NETStandard.Library": "1.6.1"
+  },
+
+  "frameworks": {
+    "net461": {}
+  }
+}
