@@ -12,7 +12,7 @@ namespace EfSwitcher.Repository.EfCore
 {
     public class RepositoryAsync<TEntity> : Repository<TEntity>, IRepositoryAsync<TEntity> where TEntity : class
     {
-        public RepositoryAsync(IDataContextAsync context) : base(context)
+        public RepositoryAsync(IDataContext context) : base(context)
         {
         }
         public virtual async Task<IEnumerable<TEntity>> SelectAsync(

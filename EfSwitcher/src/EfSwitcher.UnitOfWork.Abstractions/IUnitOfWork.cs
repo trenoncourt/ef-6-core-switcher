@@ -9,7 +9,7 @@ namespace EfSwitcher.UnitOfWork.Abstractions
         int SaveChanges();
         void Dispose(bool disposing);
         void BeginTransaction(IsolationLevel isolationLevel = IsolationLevel.Unspecified);
-        bool Commit();
+        void Commit();
         void Rollback();
     }
 }

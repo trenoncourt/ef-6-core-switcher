@@ -2,8 +2,7 @@
 
 namespace EfSwitcher.DataContext.Abstractions
 {
-    public interface IDataContext : IDisposable
+    public interface IDataContext
     {
-        int SaveChanges();
     }
 }
