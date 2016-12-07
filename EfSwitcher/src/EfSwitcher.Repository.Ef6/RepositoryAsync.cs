@@ -12,6 +12,13 @@ namespace EfSwitcher.Repository.Ef6
     public abstract class RepositoryAsync<TEntity> : Repository<TEntity>, IRepositoryAsync<TEntity> 
         where TEntity : class
     {
+        private readonly DbSet<TEntity> _dbSet;
+
+        protected RepositoryAsync(DbSet<TEntity> dbSet) : base(dbSet)
+        {
+            _dbSet = dbSet;
+        }
+
         public virtual async Task<IEnumerable<TEntity>> SelectAsync(
             Expression<Func<TEntity, bool>> where = null,
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
@@ -106,18 +113,23 @@ namespace EfSwitcher.Repository.Ef6
 
         public virtual async Task<bool> DeleteAsync(CancellationToken cancellationToken, object key)
         {
-            var entity = await FindAsync(cancellationToken, key);
+            var entity = await _dbSet.FindAsync(cancellationToken, key);
             if (entity == null)
             {
                 return false;
             }
-            Remove(entity);
+            _dbSet.Remove(entity);
             return true;
         }
 
         public async Task<TEntity> FindAsync(object[] keyValues, CancellationToken cancellationToken)
         {
-            return await base.FindAsync(cancellationToken, keyValues);
+            return await _dbSet.FindAsync(cancellationToken, keyValues);
+        }
+
+        public async Task<TEntity> FindAsync(object[] keyValues)
+        {
+            return await _dbSet.FindAsync(keyValues);
         }
     }
 }

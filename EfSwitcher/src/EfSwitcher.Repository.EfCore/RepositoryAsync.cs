@@ -12,6 +12,13 @@ namespace EfSwitcher.Repository.EfCore
     public class RepositoryAsync<TEntity> : Repository<TEntity>, IRepositoryAsync<TEntity>
         where TEntity : class
     {
+        private readonly DbSet<TEntity> _dbSet;
+
+        public RepositoryAsync(DbSet<TEntity> dbSet) : base(dbSet)
+        {
+            _dbSet = dbSet;
+        }
+
         public virtual async Task<IEnumerable<TEntity>> SelectAsync(
             Expression<Func<TEntity, bool>> where = null,
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
@@ -113,9 +120,19 @@ namespace EfSwitcher.Repository.EfCore
                 return false;
             }
 
-            Remove(entity);
+            _dbSet.Remove(entity);
 
             return true;
+        }
+
+        public Task<TEntity> FindAsync(params object[] keyValues)
+        {
+            return _dbSet.FindAsync(keyValues);
+        }
+
+        public Task<TEntity> FindAsync(object[] keyValues, CancellationToken cancellationToken)
+        {
+            return _dbSet.FindAsync(keyValues, cancellationToken);
         }
     }
 }

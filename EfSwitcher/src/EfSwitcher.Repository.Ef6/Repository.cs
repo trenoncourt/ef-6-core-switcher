@@ -8,9 +8,15 @@ using EfSwitcher.Repository.Abstractions;
 
 namespace EfSwitcher.Repository.Ef6
 {
-    public abstract class Repository<TEntity> : DbSet<TEntity>, IRepository<TEntity> 
+    public class Repository<TEntity> : IRepository<TEntity> 
         where TEntity : class
     {
+        private readonly DbSet<TEntity> _dbSet;
+        public Repository(DbSet<TEntity> dbSet)
+        {
+            _dbSet = dbSet;
+        }
+
         public virtual IEnumerable<TEntity> Select(
             Expression<Func<TEntity, bool>> where = null,
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
@@ -97,37 +103,42 @@ namespace EfSwitcher.Repository.Ef6
             return query.Select(select).LastOrDefault();
         }
 
+        public TEntity Find(params object[] keyValues)
+        {
+            return _dbSet.Find(keyValues);
+        }
+
         public virtual TEntity Insert(TEntity entity)
         {
-            this.AddOrUpdate(entity);
+            _dbSet.AddOrUpdate(entity);
             return entity;
         }
 
         public virtual void InsertRange(IEnumerable<TEntity> entities)
         {
-            AddRange(entities);
+            _dbSet.AddRange(entities);
         }
 
         public virtual TEntity Update(TEntity entity)
         {
-            this.AddOrUpdate(entity);
+            _dbSet.AddOrUpdate(entity);
             return entity;
         }
 
         public virtual void Delete(object id)
         {
-            var entity = Find(id);
+            var entity = _dbSet.Find(id);
             Delete(entity);
         }
 
         public virtual void Delete(TEntity entity)
         {
-            Remove(entity);
+            _dbSet.Remove(entity);
         }
 
         public virtual IQueryable<TEntity> Queryable()
         {
-            return this;
+            return _dbSet;
         }
 
         protected IQueryable<TEntity> Query(
@@ -140,7 +151,7 @@ namespace EfSwitcher.Repository.Ef6
             int? take = null,
             bool tracking = false)
         {
-            IQueryable<TEntity> query = this;
+            IQueryable<TEntity> query = _dbSet;
 
             if (!tracking)
             {
@@ -179,7 +190,7 @@ namespace EfSwitcher.Repository.Ef6
 
             if (activateTracking)
             {
-                return this.Where((Expression<Func<TEntity, bool>>)
+                return _dbSet.Where((Expression<Func<TEntity, bool>>)
                 Expression.Lambda(
                     Expression.Equal(
                         Expression.Property(parameter, "Id"),
@@ -187,7 +198,7 @@ namespace EfSwitcher.Repository.Ef6
                     parameter));
             }
 
-            return AsNoTracking().Where((Expression<Func<TEntity, bool>>)
+            return _dbSet.AsNoTracking().Where((Expression<Func<TEntity, bool>>)
                 Expression.Lambda(
                     Expression.Equal(
                         Expression.Property(parameter, "Id"),

@@ -41,7 +41,7 @@ namespace EfSwitcher.DataContext.EfCore
 
         public IRepository<TEntity> Repository<TEntity>() where TEntity : class
         {
-            return Set<TEntity>() as Repository<TEntity>;
+            return new Repository<TEntity>(Set<TEntity>());
         }
     }
 }
