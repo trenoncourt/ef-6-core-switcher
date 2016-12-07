@@ -1,18 +1,15 @@
 using System;
 using System.Data;
 using Microsoft.EntityFrameworkCore;
-using EfSwitcher.DataContext.Abstractions;
+using EfSwitcher.Repository.Abstractions;
+using EfSwitcher.UnitOfWork.Abstractions;
+using EfSwitcher.Repository.EfCore;
 
 namespace EfSwitcher.DataContext.EfCore
 {
-    public class DataContext : DbContext, IDataContext
+    public class DataContext : DbContext, IUnitOfWork
     {
         protected IDbTransaction Transaction;
-
-        public DataContext()
-        {
-            InstanceId = Guid.NewGuid();
-        }
 
         public DataContext(DbContextOptions options) : base(options)
         {
@@ -40,6 +37,11 @@ namespace EfSwitcher.DataContext.EfCore
         public virtual void Rollback()
         {
             Transaction.Rollback();
+        }
+
+        public IRepository<TEntity> Repository<TEntity>() where TEntity : class
+        {
+            return Set<TEntity>() as Repository<TEntity>;
         }
     }
 }

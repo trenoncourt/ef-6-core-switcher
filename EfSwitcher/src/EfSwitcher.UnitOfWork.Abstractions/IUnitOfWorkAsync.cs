@@ -1,11 +1,12 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using EfSwitcher.DataContext.Abstractions;
+using EfSwitcher.Repository.Abstractions;
 
 namespace EfSwitcher.UnitOfWork.Abstractions
 {
-    public interface IUnitOfWorkAsync<TDataContext> : IUnitOfWork<TDataContext> where TDataContext : IDataContext
+    public interface IUnitOfWorkAsync : IUnitOfWork
     {
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default(CancellationToken));
+        IRepositoryAsync<TEntity> RepositoryAsync<TEntity>() where TEntity : class;
     }
 }

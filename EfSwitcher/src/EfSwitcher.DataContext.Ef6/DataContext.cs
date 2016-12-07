@@ -4,17 +4,15 @@ using System.Data.Common;
 using System.Data.Entity;
 using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Infrastructure;
-using EfSwitcher.DataContext.Abstractions;
+using EfSwitcher.Repository.Abstractions;
+using EfSwitcher.Repository.Ef6;
+using EfSwitcher.UnitOfWork.Abstractions;
 
 namespace EfSwitcher.DataContext.Ef6
 {
-    public class DataContext : DbContext, IDataContext
+    public class DataContext : DbContext, IUnitOfWork
     {
         protected DbTransaction Transaction;
-        public DataContext()
-        {
-            InstanceId = Guid.NewGuid();
-        }
 
         public DataContext(string nameOrConnectionString) : base(nameOrConnectionString)
         {
@@ -41,6 +39,11 @@ namespace EfSwitcher.DataContext.Ef6
         public virtual void Rollback()
         {
             Transaction.Rollback();
+        }
+
+        public IRepository<TEntity> Repository<TEntity>() where TEntity : class
+        {
+            return Set<TEntity>() as Repository<TEntity>;
         }
     }
 }

@@ -1,30 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Linq.Expressions;
-using EfSwitcher.DataContext.Abstractions;
 using EfSwitcher.Repository.Abstractions;
 
 namespace EfSwitcher.Repository.Ef6
 {
-    public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
+    public abstract class Repository<TEntity> : DbSet<TEntity>, IRepository<TEntity> 
+        where TEntity : class
     {
-        protected readonly IDataContext DataContext;
-
-        public Repository(IDataContext context)
-        {
-            DataContext = context;
-            var dbContext = context as DbContext;
-            if (dbContext == null)
-            {
-                throw new ArgumentNullException(nameof(dbContext));
-            }
-            DbSet = dbContext.Set<TEntity>();
-        }
-
-        protected readonly DbSet<TEntity> DbSet;
-
         public virtual IEnumerable<TEntity> Select(
             Expression<Func<TEntity, bool>> where = null,
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
@@ -52,11 +38,6 @@ namespace EfSwitcher.Repository.Ef6
         {
             IQueryable<TEntity> query = Query(where, orderBy, includes, skipPage, takePage, skip, take, tracking);
             return query.Select(select).ToList();
-        }
-
-        public virtual TEntity Find(params object[] key)
-        {
-            return DbSet.Find(key);
         }
 
         public virtual TEntity FindFirst(
@@ -118,19 +99,19 @@ namespace EfSwitcher.Repository.Ef6
 
         public virtual TEntity Insert(TEntity entity)
         {
-            ((DbContext) DataContext).Entry(entity).State = EntityState.Added;
-            return DbSet.Attach(entity);
+            this.AddOrUpdate(entity);
+            return entity;
         }
 
         public virtual void InsertRange(IEnumerable<TEntity> entities)
         {
-            DbSet.AddRange(entities);
+            AddRange(entities);
         }
 
         public virtual TEntity Update(TEntity entity)
         {
-            ((DbContext)DataContext).Entry(entity).State = EntityState.Added;
-            return DbSet.Attach(entity);
+            this.AddOrUpdate(entity);
+            return entity;
         }
 
         public virtual void Delete(object id)
@@ -141,12 +122,12 @@ namespace EfSwitcher.Repository.Ef6
 
         public virtual void Delete(TEntity entity)
         {
-            DbSet.Remove(entity);
+            Remove(entity);
         }
 
         public virtual IQueryable<TEntity> Queryable()
         {
-            return DbSet;
+            return this;
         }
 
         protected IQueryable<TEntity> Query(
@@ -159,7 +140,7 @@ namespace EfSwitcher.Repository.Ef6
             int? take = null,
             bool tracking = false)
         {
-            IQueryable<TEntity> query = DbSet;
+            IQueryable<TEntity> query = this;
 
             if (!tracking)
             {
@@ -198,7 +179,7 @@ namespace EfSwitcher.Repository.Ef6
 
             if (activateTracking)
             {
-                return DbSet.Where((Expression<Func<TEntity, bool>>)
+                return this.Where((Expression<Func<TEntity, bool>>)
                 Expression.Lambda(
                     Expression.Equal(
                         Expression.Property(parameter, "Id"),
@@ -206,7 +187,7 @@ namespace EfSwitcher.Repository.Ef6
                     parameter));
             }
 
-            return DbSet.AsNoTracking().Where((Expression<Func<TEntity, bool>>)
+            return AsNoTracking().Where((Expression<Func<TEntity, bool>>)
                 Expression.Lambda(
                     Expression.Equal(
                         Expression.Property(parameter, "Id"),

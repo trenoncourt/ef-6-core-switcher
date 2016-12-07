@@ -4,17 +4,14 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
-using EfSwitcher.DataContext.Abstractions;
 using EfSwitcher.Repository.Abstractions;
 using Microsoft.EntityFrameworkCore;
 
 namespace EfSwitcher.Repository.EfCore
 {
-    public class RepositoryAsync<TEntity> : Repository<TEntity>, IRepositoryAsync<TEntity> where TEntity : class
+    public class RepositoryAsync<TEntity> : Repository<TEntity>, IRepositoryAsync<TEntity>
+        where TEntity : class
     {
-        public RepositoryAsync(IDataContext context) : base(context)
-        {
-        }
         public virtual async Task<IEnumerable<TEntity>> SelectAsync(
             Expression<Func<TEntity, bool>> where = null,
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
@@ -42,16 +39,6 @@ namespace EfSwitcher.Repository.EfCore
         {
             IQueryable<TEntity> query = Query(where, orderBy, includes, skipPage, takePage, skip, take, tracking);
             return await query.Select(select).ToListAsync().ConfigureAwait(false);
-        }
-
-        public virtual async Task<TEntity> FindAsync(params object[] keyValues)
-        {
-            return await DbSet.FindAsync(keyValues).ConfigureAwait(false);
-        }
-
-        public virtual async Task<TEntity> FindAsync(object[] keyValues, CancellationToken cancellationToken)
-        {
-            return await DbSet.FindAsync(keyValues, cancellationToken).ConfigureAwait(false);
         }
 
         public virtual async Task<TEntity> FindFirstAsync(
@@ -111,7 +98,7 @@ namespace EfSwitcher.Repository.EfCore
             IQueryable<TEntity> query = Query(where, orderBy, includes, skipPage, takePage, skip, take, tracking);
             return await query.Select(select).LastOrDefaultAsync().ConfigureAwait(false);
         }
-        
+
         public virtual async Task<bool> DeleteAsync(object key)
         {
             return await DeleteAsync(CancellationToken.None, key).ConfigureAwait(false);
@@ -125,8 +112,8 @@ namespace EfSwitcher.Repository.EfCore
             {
                 return false;
             }
-            
-            DbSet.Remove(entity);
+
+            Remove(entity);
 
             return true;
         }

@@ -1,8 +1,8 @@
-﻿{
+{
   "version": "1.0.0",
 
   "dependencies": {
-    "EfSwitcher.DataContext.Abstractions": "*",
+    "EfSwitcher.Repository.Abstractions": "1.0.0",
     "NETStandard.Library": "1.6.1",
     "System.Data.Common": "4.3.0"
   },

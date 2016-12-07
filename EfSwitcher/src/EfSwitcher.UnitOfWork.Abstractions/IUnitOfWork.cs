@@ -1,15 +1,15 @@
-﻿using EfSwitcher.DataContext.Abstractions;
-using System;
+﻿using System;
 using System.Data;
+using EfSwitcher.Repository.Abstractions;
 
 namespace EfSwitcher.UnitOfWork.Abstractions
 {
-    public interface IUnitOfWork<TDataContext> : IDisposable where TDataContext : IDataContext
+    public interface IUnitOfWork : IDisposable
     {
         int SaveChanges();
-        void Dispose(bool disposing);
         void BeginTransaction(IsolationLevel isolationLevel = IsolationLevel.Unspecified);
         void Commit();
         void Rollback();
+        IRepository<TEntity> Repository<TEntity>() where TEntity : class;
     }
 }

@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // associated with an assembly.
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("EfSwitcher.UnitOfWork.Abstractions")]
+[assembly: AssemblyProduct("EfSwitcher.Sample.Data")]
 [assembly: AssemblyTrademark("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible
@@ -15,4 +15,4 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("38c15568-6120-42f8-af01-9e7329fdc3e6")]
+[assembly: Guid("f0ba81eb-e7de-4d4f-ba80-0b43d1dba31c")]
