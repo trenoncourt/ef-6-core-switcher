@@ -9,12 +9,12 @@ using System.Data.Entity;
 
 namespace EfSwitcher.Repository.Ef6
 {
-    public abstract class RepositoryAsync<TEntity> : Repository<TEntity>, IRepositoryAsync<TEntity> 
+    public class RepositoryAsync<TEntity> : Repository<TEntity>, IRepositoryAsync<TEntity> 
         where TEntity : class
     {
         private readonly DbSet<TEntity> _dbSet;
 
-        protected RepositoryAsync(DbSet<TEntity> dbSet) : base(dbSet)
+        public RepositoryAsync(DbSet<TEntity> dbSet) : base(dbSet)
         {
             _dbSet = dbSet;
         }

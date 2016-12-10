@@ -12,7 +12,7 @@ namespace EfSwitcher.DataContext.Ef6
 
         public IRepositoryAsync<TEntity> RepositoryAsync<TEntity>() where TEntity : class
         {
-            return Set<TEntity>() as RepositoryAsync<TEntity>;
+            return new RepositoryAsync<TEntity>(Set<TEntity>());
         }
     }
 }
